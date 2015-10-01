@@ -1,0 +1,9 @@
+{block #content}
+{ifset $filter}<h3>{$filter}:</h3>{/ifset}
+
+{control works}
+
+{/block}
+{block #admin}
+  <a href="{link :Admin:Default:works}">Admin</a>
+{/block}

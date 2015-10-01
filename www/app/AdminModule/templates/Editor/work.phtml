@@ -1,0 +1,52 @@
+{block #title}{if isset($edit)}Úprava práce{else}Přidání nové práce{/if}{/block}
+{block #content}
+<script>
+                                     
+   $(document).ready(function(){   
+        var aut = $('#snippet-authorForm-list');
+        var submit = $('#frm-workForm-form').find('input[name=ok]');
+        $('select[name=author]').after(aut);
+                             
+        aut.hide();
+        aut.find('input[name=ok]').parent().parent().hide();
+        
+        //insert author form after selecting 'new'(0)                    
+        $('select[name=author]').change(function() {                                      
+            if($(this).find('option:selected').val()=='0'){
+              aut.show();
+              submit.val('Přidat práci a autora');
+              $('input[name=authorId]').val('true');
+            } else {
+              aut.hide();
+              submit.val('Přidat práci');            
+              $('input[name=authorId]').val('false');
+            }          
+        });
+        
+        submit.click(function(){
+          if($('input[name=authorId]').val()=='true'){
+            if(nette.validateForm(document.getElementById('frm-workForm-form'))){            
+                if(nette.validateForm(document.getElementById('frm-authorForm-form'))){
+                  $.post( 
+                     $('#frm-authorForm-form').attr('action'), 
+                     $("#frm-authorForm-form").serialize()                      
+                  );
+                  return true;
+                }
+                return false;  
+            }            
+            return false;
+          }
+        });
+        //if there no authors, trigger change to show author form
+        if($('select[name=author]').find('option').length == 1){
+          $('select[name=author]').trigger('change');       
+        }                 
+   });       
+
+  </script>
+{control workForm}
+{control authorForm}
+
+{if isset($edit)}<p><a href="{plink :Front:Work: $url}">Zobrazit na webu</a></p>{/if}
+

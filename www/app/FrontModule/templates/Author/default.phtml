@@ -1,0 +1,13 @@
+{block #content}
+<p>
+<h3>{$data['name']} {$data['surname']}</h3>
+Rok maturity: {$data['class']}, Třída: {$data['classMark']}<br><br>
+ 
+ {$sum}:<br><br>
+ {control works}
+</p>
+
+{/block}
+{block #admin}
+  <a href="{link :Admin:Editor:author 'id'=>$data['authorId']}">Admin</a>
+{/block}  

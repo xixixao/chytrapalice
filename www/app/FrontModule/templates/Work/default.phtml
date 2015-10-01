@@ -1,0 +1,44 @@
+{block #content}
+<?php
+
+$award = Model::formValue($data['award'], 'jiné', '', '/e$/','i', '/a$/','i', TRUE);
+$data['type'] =  Model::formValue($data['type'], '/jiný/', '');
+?>
+<h3>{$data['title']}</h3>
+<div class="files">
+  <h4>Stáhnout práci v souboru</h4>
+  {if count($files)==0}K dispozici nejsou žádné soubory.{else}
+  <div class="links">
+    <a n:foreach="$files as $file" title="{$file['name']}" href="{$basePath.$file['link']}" class="{$file['type']}"><div></div>({$file['size']})</a>  
+  </div>
+{/if}
+</div>
+<h4><a href="{link :Front:Author: $data['authorUrl']}">{$data['authorName']}</a>, {$data['workClass']}</h4>
+{if $award}
+  práce získala v roce {$data['year']} {$award}<br>
+{else}
+  práce z roku {$data['year']}
+{/if} 
+,{$data['type']}
+<p n:if="$data['text']!=''">Počet normostran: {$data['pages']}, slov: {$data['words']}, znaků: {$data['characters']}</p>
+<p n:if="$data['text']==''">Text práce není k dispozici přímo.</p>
+<hr>
+<div class="work-text">
+<?php
+$text = preg_replace('/\\n +\\n/','</p><p>',$data['text']);
+$text = preg_replace('/(.{200,})\\n/','$1</p><p>',$text);
+$text = preg_replace('/\\n/','<br>',$text);
+?>
+<p>{!$text}</p>
+
+{if($data['pages']>3)}<a href="#main" style="float: right">Na začátek</a>{/if}
+
+<p style="text-align: right; float: right; width: 100%"><i>Přečteno {$data['read']}krát | Přidáno {$data['added']} | Naposledy upraveno {$data['edited']}</i></p>
+</div>
+
+{/block}
+{block #admin}
+  <a href="{link :Admin:Editor:work 'id'=>$data['workId']}">Admin</a>
+{/block} 
+
+

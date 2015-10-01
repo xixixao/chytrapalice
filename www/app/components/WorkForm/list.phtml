@@ -1,0 +1,33 @@
+{snippet:list}
+
+<script>
+                                     
+      $(document).ready(function(){
+        //hide fileSumbit and sumbit fileLoader on change                                     
+        $('input[name=fileSubmit]').hide();                    
+        $('input[name=file]').change(function() {                          
+            $(this).parents('form').find('input[name=fileSubmit]').click();            
+        });          
+   });       
+
+  </script>
+
+{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
+
+{control $form}
+
+{ifset $loadLoader}
+{if count($files)>0}
+<p>Přiložené soubory:</p>
+
+<table class="datagrid">
+<tr n:foreach="$files as $file">
+
+<td>{$file['name']} ({$file['size']})</td><td class="actions"><a href="{link deleteFile! $file['name']}">smazat</a></td>
+                            
+</tr>
+</table>
+{/if}
+{control fileLoader}
+{/ifset}
+{/snippet}

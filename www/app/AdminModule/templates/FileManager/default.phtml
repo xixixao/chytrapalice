@@ -1,0 +1,23 @@
+{block #title}Správa souborů{/block}
+{block #content}
+
+<h2>Správa souborů</h2>
+
+<?php $form->render('begin') ?>
+<table class="grid" border="1">
+<tr>
+  <th><span>Označit</span></th>
+  <th><span>Název</span></th>  
+  <th<span>Velikost</span></th>
+</tr>
+<?php $i = 0; ?>
+{foreach $form->getComponent('file')->getControl()->getChildren() as $val }
+   
+    <tr><td class="centered">{!$val}</td><td>{$files[$i]['name']}</td><td>{$files[$i]['size']} bitů</td></tr>
+    <?php $i++; ?>
+{/foreach}
+</table>
+<p>{$form->getComponent('delete')->getControl()}</p>
+<?php $form->render('end') ?>
+<p><a href="{link Table:}">Vrátit se na seznam</a> |
+ <a href="{link Default:}">Zpět na web</a></p>

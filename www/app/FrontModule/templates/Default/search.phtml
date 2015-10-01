@@ -1,0 +1,34 @@
+{block #content}
+{if !$fulltext}
+
+  <p n:if="$worksCount>0">
+  Vyhledávaný výraz: "{$search}" byl nalezen v názvech prací. {include #fulltext}
+    
+  {control works}
+  </p>
+  <p n:if="$authorsCount>0">
+  Vyhledávaný výraz: "{$search}" byl nalezen ve jménech autorů. {include #fulltext}
+    
+  {control authors}
+  </p>
+  <p n:if="$worksCount==0&&$authorsCount==0">
+    Vyhledávaný výraz: "{$search}" nebyl nalezen mezi názvy a jmény.
+    <a n:block="#fulltext" href="{link :Front:Default:search 'text'=>$search, 'fulltext'=>'1'}">Hledat v textech</a> 
+  </p>
+  
+{else}
+  <p n:if="$worksCount>0">
+  Vyhledávaný výraz: "{$search}" byl nalezen v textech prací. {include #normal}
+  
+  {control works}
+  </p>
+  <p n:if="$worksCount==0">
+  Vyhledávaný výraz: "{$search}" nebyl nalezen v textech nebo byl příšil krátký.   
+  <a n:block="#normal" href="{link :Front:Default:search 'text'=>$search}">Hledat mezi názvy a jmény</a>
+  </p>
+{/if} 
+
+{/block}
+{block #admin}
+  <a href="{link :Admin:Default:}">Admin</a>
+{/block} 

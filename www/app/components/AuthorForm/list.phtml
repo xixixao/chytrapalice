@@ -1,0 +1,28 @@
+{snippet:list}
+
+
+{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
+
+{control $form begin}
+{control $form errors}
+<table>
+ <tr n:foreach="$form->groups['general']->controls as $controla" n:if="!$controla->getOption('rendered')" n:block="#pair">
+    <th n:block="#label">{if $controla instanceof Button}&nbsp;{else}{!$controla->label}{/if}</th>
+    <td n:block="#control">{!$controla->control}</td>
+ </tr>
+ <tr class="span"></tr>
+ <tr>
+    {include #label, controla => $form['number']}
+    <td>{!$form['number']->control} pro rok {$schoolYear-1}/{$schoolYear}</td>
+ </tr>
+ <tr>    
+    <th>nebo</th><td></td>
+ </tr>
+ {include #pair, controla => $form['class']} 
+  <tr class="span"></tr>
+  <tr>{include #pair, controla => $form['ok']}<td></td></tr>
+ </table>
+{control $form end}
+
+
+{/snippet}

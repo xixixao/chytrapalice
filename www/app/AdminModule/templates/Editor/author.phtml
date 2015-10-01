@@ -1,0 +1,11 @@
+{block #title}{if isset($edit)}Úprava údajů autora{else}Přidání nového autora{/if}{/block}
+{block #content}
+
+{control authorForm}
+<a href="{plink addWork! 'author'=>$id}">Přidat práci</a>
+{if isset($edit)}
+  <br><br>
+  {control workList}
+  
+  <p><a href="{plink :Front:Author: $url}">Zobrazit na webu</a></p>
+{/if}

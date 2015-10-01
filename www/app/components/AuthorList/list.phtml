@@ -1,0 +1,13 @@
+{snippet:list}
+<script>
+$(document).ready(function(){
+  $('a[title=Smazat]').click(function() {                                      
+    if($(this).parents('tr').find('.pages a').text()>0){
+      return confirm('Opravdu smazat autora a vsechny jeho prace?');
+    }                      
+  });
+});
+</script>
+{control dataGrid}
+
+{/snippet}

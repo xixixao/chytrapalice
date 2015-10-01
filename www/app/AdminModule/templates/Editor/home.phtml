@@ -1,0 +1,9 @@
+{block #title}Úprava úvodního slova{/block}
+{block #content}
+
+{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
+
+{control homeForm}
+
+<p><a href="{plink :Front:Default:}">Zobrazit na webu</a></p>
+

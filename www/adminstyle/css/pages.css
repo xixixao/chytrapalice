@@ -1,0 +1,23 @@
+/*circle button*/
+a.admin{      
+  float: right;
+  display: block;
+  text-align: center;
+  font-family: "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	line-height:26px;
+  background: url('../images/circle.png') no-repeat;
+  width: 100px;
+  height: 30px;
+  padding: 35px 0px;
+  position: relative;
+  color: #165CA3;
+  cursor: pointer;
+  cursor: hand;
+}
+a.admin:hover{
+  background-position: 0px -100px;
+  color: #505767;
+  text-decoration: none;
+}

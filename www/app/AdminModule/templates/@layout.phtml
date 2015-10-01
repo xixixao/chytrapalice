@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<title>Chytrá palice - Admin - {include #title}</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="{$basePath}/adminstyle/css/screen.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+</head>
+
+<body>
+  <ul class="menu">
+    <li><a href="{link :Admin:Editor:work}">Přidat práci</a></li>
+    <li><a href="{link :Admin:Editor:author}">Přidat autora</a></li>
+	  <li><a href="{link :Admin:Default:works}">Seznam prací</a></li>
+	  <li><a href="{link :Admin:Default:authors}">Seznam autorů</a></li>
+	  <li><a href="{link :Admin:Editor:home}">Úvod</a></li>
+	  <li><a href="{link :Front:Default:}">Zpět na web</a></li>
+	  <li><a href="{link :Admin:Default:}">Nápověda</a> </p></li>
+	  <li><a href="{link :Admin:Login:default do=>logout}">Odhlásit</a> </p></li>
+  </ul>
+  <div style="clear: both; display: block"></div>   
+  <h1>{include #title}</h1>
+  
+	{include #content}
+	
+	
+	<!--
+		<h2>Absolute links</h2>
+		<ul>
+			<li><a href="{link :Front:Default:}"><code>:Front:Default:</code></a> - link to presenter <em>Front:Default</em></li>
+			<li><a href="{link :Admin:Default:}"><code>:Admin:Default:</code></a> - link to presenter <em>Admin:Default</em></li>
+		</ul>
+	-->
+</body>
+</html>
