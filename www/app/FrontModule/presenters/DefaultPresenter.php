@@ -256,22 +256,25 @@ class Front_DefaultPresenter extends Front_BasePresenter
   }
 
   public function worksOnRowRendered(Html $row, DibiRow $data){
-    $this->placeLink($row, $data, "Work");
+    $this->placeLink($row, $data, "Work", 'title');
   }
   public function authorsOnRowRendered(Html $row, DibiRow $data){
-    $this->placeLink($row, $data, "Author");
+    $this->placeLink($row, $data, "Author", 'surname');
   }
   public function worksOnCellRendered(Html $cell, $column, $value){
     if($column=="category" && $value!="palice"){
       $cell->setText(Model::palicky($value));
     }
   }
-  public function placeLink(Html $row, DibiRow $data, $pres)
+  public function placeLink(Html $row, DibiRow $data, $pres, $titleField)
   {
       foreach($row->getChildren() as $cell){
         $inside = $cell->getText();
         $cell->setText('')->style .= "padding: 0px;";
-        $cell->add(Html::el('a')->href($this->link(":Front:$pres:", $data['link']))->title($data['title'])->setText($inside));
+        $cell->add(Html::el('a')
+          ->href($this->link(":Front:$pres:", $data['link']))
+          ->title($data[$titleField])
+          ->setText($inside));
       }
   }
 }
