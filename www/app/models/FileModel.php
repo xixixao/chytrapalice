@@ -4,48 +4,48 @@
 
 class FileModel extends /*Nette\*/Object
 {
-	  
+
   public static function getFiles($id){
     $files = array();
-    
+
     $workDirectoryName = WWW_DIR ."/files/".$id;
     if(is_dir($workDirectoryName)){
-      $workDir = opendir($workDirectoryName);             
+      $workDir = opendir($workDirectoryName);
       while($entryName = readdir($workDir)) {
-      
-      	if($entryName!="." &&  $entryName!=".." && !is_dir($mainDirectoryName."/".$entryName)){
-         
+
+      	if($entryName!="." &&  $entryName!=".." && !is_dir("$workDirectoryName/$entryName")){
+
       	  $files[] = array(
       	   //title="$file['name']" href="$file['link']" class="$file['type']"><div></div>({$file['size']})</a>
             'name'=>"$entryName",
             'link'=>"/files/$id/$entryName",
             'type'=>substr($entryName, strpos($entryName, '.')+1),
             'size'=>self::getFileSize("$workDirectoryName/$entryName")
-          );        
-        } 
+          );
+        }
       }
     }
     return $files;
-             
+
   }
-  public static function deleteFiles($work){        	    
+  public static function deleteFiles($work){
     self::delTree(WWW_DIR ."/files/$work");
-    	  
+
   }
-  public static function delete($work, $name){        	    
+  public static function delete($work, $name){
     $file = WWW_DIR ."/files/$work/$name";
     if(is_file($file)){
-      unlink( $file );        
-    }	  
+      unlink( $file );
+    }
   }
-  public function add($work, $file){	  
+  public function add($work, $file){
     $baseName = basename($file['name']);
     $trimName = substr($baseName, 0, strrpos($baseName, '.'));
     $suffix = substr($baseName, strrpos($baseName, '.'));
-        
+
     $trimName = Model::formUri($trimName);
     $trimName = (strlen($trimName)==0) ? "noname" : $trimName;
-    
+
     $path = WWW_DIR ."/files/$work/";
     $i='';
     if(!is_dir($path)){
@@ -53,8 +53,8 @@ class FileModel extends /*Nette\*/Object
     }
     while(file_exists($path.($fileName = $trimName.$i.$suffix))){
       $i++;
-    }    
-    move_uploaded_file($file['tmp_name'], $path.$fileName);  
+    }
+    move_uploaded_file($file['tmp_name'], $path.$fileName);
 
     return $fileName;
   }
@@ -67,52 +67,52 @@ class FileModel extends /*Nette\*/Object
       $l++;
     }
     return round($size).' '.$t[$l];
-  
-  } 
+
+  }
 	/*public function getAllFiles()
 	{
-		
-       $model = new Model;  
+
+       $model = new Model;
   	   $this->files=array();
   	   $i=0;
   	   $mainDirectoryName = WWW_DIR ."/attachments";
- 
+
       $pageDir = opendir($mainDirectoryName);
       $name = array();
       $size = array();
       $ids = array();
       while($entryName = readdir($pageDir)) {
-      	if($entryName!="." &&  $entryName!=".." && !is_dir($mainDirectoryName."/".$entryName)){ 
+      	if($entryName!="." &&  $entryName!=".." && !is_dir($mainDirectoryName."/".$entryName)){
       	  //$this->files['ids']["$mainDirectoryName/$entryName"] = "";
-          
-          $ids[$i] = "$mainDirectoryName/$entryName"; 
+
+          $ids[$i] = "$mainDirectoryName/$entryName";
           $name[$i]  = $entryName;
           $size[$i] = filesize("$mainDirectoryName/$entryName");
           $i++;
-        } 
-       }        
+        }
+       }
         array_multisort($name, $size, $ids);
-        
+
         for ($i=0; $i< count($name); $i++) {
             $this->files['ids'][$ids[$i]] = "";
             $this->files[$i] = array(
             'name'=>$name[$i],
             'size'=>$size[$i]
           );
-        }        
-    
+        }
+
     return $this->files;
 	}
-	  
-	public function addFile($file){	  
+
+	public function addFile($file){
     $baseName = basename($file['name']);
     $trimName = substr($baseName, 0, strrpos($baseName, '.'));
     $suffix = substr($baseName, strrpos($baseName, '.'));
-    
+
     $except = array('\\', '/', ':', '*', '?', '"', '<', '>', '|', ' ', '.');
     $trimName = str_replace($except, '', $trimName);
     $trimName = (strlen($trimName)==0) ? "noname" : $trimName;
-    
+
     $path = WWW_DIR .'/attachments/';
     $i='';
     if(!is_dir($path)){
@@ -120,24 +120,24 @@ class FileModel extends /*Nette\*/Object
     }
     while(file_exists($path.($fileName = $trimName.$i.$suffix))){
       $i++;
-    }    
-    move_uploaded_file($file['tmp_name'], $path.$fileName);  
+    }
+    move_uploaded_file($file['tmp_name'], $path.$fileName);
 
     if(getimagesize($path.$fileName)){
-      $this->addMiniature($file, $fileName, $path);      
+      $this->addMiniature($file, $fileName, $path);
     }
     return $fileName;
   }
-  
+
 	public function deleteFiles($array)
 	{
-	  foreach($array as $file){	    	    
+	  foreach($array as $file){
       if(is_file($file)){
-        unlink( $file );        
+        unlink( $file );
       }
-	  }   
+	  }
   }
-  
+
   public function addMiniature($file, $fileName, $path){
 	  $dimensions = getimagesize($path.$fileName);
     switch ($dimensions[2]) {
@@ -155,7 +155,7 @@ class FileModel extends /*Nette\*/Object
     $miniDest = $path.'mini/';
     if(!is_dir($miniDest)){
       mkdir($miniDest);
-    }  
+    }
     $width = min(self::IMAGE_WIDTH,$dimensions[0]);
     $height =  $width*$dimensions[1]/$dimensions[0];
     $dst_img = imageCreateTrueColor($width,$height);
@@ -165,7 +165,7 @@ class FileModel extends /*Nette\*/Object
       break;
       case 2:
       imageJpeg($dst_img, $miniDest.$fileName, 100);
-      break;  
+      break;
       case 3:
       break;
     }
@@ -182,7 +182,7 @@ class FileModel extends /*Nette\*/Object
             unlink( $file );
         }
     }
-   
+
     if (is_dir($dir)) rmdir( $dir );
   }
 
