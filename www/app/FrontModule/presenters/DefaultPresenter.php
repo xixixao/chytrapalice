@@ -91,8 +91,9 @@ class Front_DefaultPresenter extends Front_BasePresenter
             //title,
 
       $grid = new DataGrid;
-      $search = "";
+      $search = NULL;
       if(isset($this->searchFull)){
+        $search = "";
         foreach($this->search as $one){
           $search .= "title RLIKE '(^| )".$one."' OR ";
         }
@@ -101,7 +102,6 @@ class Front_DefaultPresenter extends Front_BasePresenter
         }
         $search = substr($search, 0, -3);
       }
-
 
 
       $grid->bindDataTable(
