@@ -125,7 +125,7 @@ class Front_DefaultPresenter extends Front_BasePresenter
           '%if', isset($this->grade), 'AND class=[year]+'.(3 - $this->grade), '%end',
           'WHERE %and', $this->where,
           '%if', isset($search), 'AND %sql', $search, '%end',//"MATCH(title) AGAINST('".$search."')";
-          '%if', isset($this->searchFulltext), 'MATCH(text) AGAINST(%s)', $this->searchFulltext, '%end',
+          '%if', isset($this->searchFulltext), 'AND MATCH(text) AGAINST(%s)', $this->searchFulltext, '%end',
           '%if', count($this->order) > 0, 'ORDER BY %by', $this->order, '%end'
 
         )
