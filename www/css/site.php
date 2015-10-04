@@ -272,12 +272,12 @@ div.schoolyear{
 }
 #rightbar ul.optionsmenu td.tl{
   background: url('../images/optionstop.png') no-repeat left top;
-  height: 10px;
+  height: 8px;
   width: 100%;
 }
 #rightbar ul.optionsmenu td.bl{
   background-image: url('../images/optionsbottom.png');
-  height: 10px;
+  height: 8px;
   width: 100%;
 }
 #rightbar ul.optionsmenu td.tr{
