@@ -11,75 +11,75 @@
 	  @import "{$basePath}/css/site.php";
   </style>
   <script>
-      $(document).ready(function(){                 
-      
-        $("#rightbar a.list").mouseover(function() { //When trigger is clicked...  
-                             
-            //Following events are applied to the subnav itself (moving subnav up and down)  
-            $(this).parent().find("ul.submenu").show(); //Drop down the subnav on click  
-            
+      $(document).ready(function(){
+
+        $("#rightbar a.list").mouseover(function() { //When trigger is clicked...
+
+            //Following events are applied to the subnav itself (moving subnav up and down)
+            $(this).parent().find("ul.submenu").show(); //Drop down the subnav on click
+
             $(this).addClass("hover");
-            
-           $(this).parent().mouseleave(function() {  
+
+           $(this).parent().mouseleave(function() {
                $(this).find("ul.submenu").hide();
-               $(this).find("a.list").removeClass("hover");                                 
-            });  
-     
-           //Following events are applied to the trigger (Hover events for the trigger)    
-        });
-        $("#rightbar ul.submenu li").mouseover(function() { //When trigger is clicked...  
-                             
-            //Following events are applied to the subnav itself (moving subnav up and down)  
-            $(this).find("ul.optionsmenu").show().css("right", function() {
-              return $(this).parent().parent().outerWidth();  
+               $(this).find("a.list").removeClass("hover");
             });
-      
-           $(this).mouseleave(function() {  
-               $(this).find("ul.optionsmenu").hide(); //When the mouse hovers out of the subnav, move it back up              
-           });  
-     
-           //Following events are applied to the trigger (Hover events for the trigger)    
+
+           //Following events are applied to the trigger (Hover events for the trigger)
         });
-        $("table.datagrid tbody tr").mouseover(function() { //When trigger is clicked...  
-                             
-            //Following events are applied to the subnav itself (moving subnav up and down)  
+        $("#rightbar ul.submenu li").mouseover(function() { //When trigger is clicked...
+
+            //Following events are applied to the subnav itself (moving subnav up and down)
+            $(this).find("ul.optionsmenu").show().css("right", function() {
+              return $(this).parent().parent().outerWidth();
+            });
+
+           $(this).mouseleave(function() {
+               $(this).find("ul.optionsmenu").hide(); //When the mouse hovers out of the subnav, move it back up
+           });
+
+           //Following events are applied to the trigger (Hover events for the trigger)
+        });
+        $("table.datagrid tbody tr").mouseover(function() { //When trigger is clicked...
+
+            //Following events are applied to the subnav itself (moving subnav up and down)
             $(this).find("a").css("color", "white");
-      
-           $(this).mouseleave(function() {  
-               $(this).find("a").css("color", "#525b37"); //When the mouse hovers out of the subnav, move it back up              
-           });  
-                    
+
+           $(this).mouseleave(function() {
+               $(this).find("a").css("color", "#525b37"); //When the mouse hovers out of the subnav, move it back up
+           });
+
         });
-        
+
         $('input[name=itemsSubmit]').hide();
-        $('select[name=items]').change(function() {            
+        $('select[name=items]').change(function() {
             $(this).parent().find('input[name=itemsSubmit]').click();
-            
+
         });
-        
+
         $('input[name=pageSubmit]').hide();
-        $('input[name=page]').change(function() {                    
+        $('input[name=page]').change(function() {
             $(this).parent().parent().find('input[name=pageSubmit]').click();
-            
+
         });
         var filtry = 'table.datagrid tr.filters, table.datagrid th.actions, table.datagrid td.actions';
-        var zapnout = function() {                            
+        var zapnout = function() {
             $(filtry).show();
-            $(this).text("Vypnout filtrování").click(function() {                            
+            $(this).text("Vypnout filtrování").click(function() {
                 $(filtry).hide();
-                $(this).text("Zapnout filtrování").click(zapnout);                
+                $(this).text("Zapnout filtrování").click(zapnout);
                 return false;
             });
             return false;
-        }        
-        
-        $('a.advanced.needed').show().click(zapnout).click();          
-        $('a.advanced').show().click(zapnout);        
+        }
+
+        $('a.advanced.needed').show().click(zapnout).click();
+        $('a.advanced').show().click(zapnout);
         $('#searchbox a.searchBtn').click(function(){
             $('#searchbox form').submit();
             return false;
         });
-   });       
+   });
 
   </script>
 
@@ -99,10 +99,10 @@
           <div style="float: left">
             <input type="hidden" name="action" value="search">
             <input class="text" type="text" name="text">
-            <a href="#" title="Hledat mezi pracemi a autory" class="searchBtn"></a>          
+            <a href="#" title="Hledat mezi pracemi a autory" class="searchBtn"></a>
             <!--<a href="#" title="Hledat v textech" class="searchBtn fulltext"></a>-->
           </div>
-        </form>        
+        </form>
       </div>
     </div>
     <div id="page">
@@ -110,23 +110,23 @@
       </div>
       <div class="body">
         <div id="content">
-          
+
           {include #content}
           {ifset $adminMode}{include #admin}{/if}
         </div>
-        
-        <div id="rightbar">  
-                                                                                    
-          {$menuNames = array('works'=>'Seznam prací', 'palicka'=>'Chytrá palička', 'authors'=>'Seznam autorů')}
-          {$filterNames = array('year'=>'Rok', 'award'=>'Ocenění', 'type'=>'Typ', 'grade'=>'Ročník', 'class'=>'Maturita', 'category'=>'Ročník')}                  
-          <ul class="topmenu" n:inner-foreach="$filters as $tableKey=>$table">                        
+
+        <div id="rightbar">
+
+          {var $menuNames = array('works'=>'Seznam prací', 'palicka'=>'Chytrá palička', 'authors'=>'Seznam autorů')}
+          {var $filterNames = array('year'=>'Rok', 'award'=>'Ocenění', 'type'=>'Typ', 'grade'=>'Ročník', 'class'=>'Maturita', 'category'=>'Ročník')}
+          <ul class="topmenu" n:inner-foreach="$filters as $tableKey=>$table">
             <li><a class="list" href='
             {if $tableKey=="palicka"}
               {link :Front:Default:works "category"=>palicka}
             {else}
               {link :Front:Default:$tableKey}
             {/if}
-            '>{$menuNames[$tableKey]}</a>    
+            '>{$menuNames[$tableKey]}</a>
               {?$i=0}
               <ul class="submenu" n:inner-foreach="$table as $filterKey=>$filter">
                 {?$i++}
@@ -141,28 +141,28 @@
                      {?$tableKey = ($tableKey == 'palicka')? 'works' : $tableKey}
                       <li n:foreach="$filter as $option"><a href='{link :Front:Default:$tableKey "$filterKey"=>$option}'>{$option}</a></li>
                       <td class="r"></td>
-                      </td></tr><tr><td colspan="2" class="bl"></td><td class="br"></td></tr></table>                    
+                      </td></tr><tr><td colspan="2" class="bl"></td><td class="br"></td></tr></table>
                   </ul>
-                   
-                </li>           
-              </ul>              
-            </li>            
+
+                </li>
+              </ul>
+            </li>
           </ul>
-          
+
           <div class="name"><a href="{link :Front:Default:mostread}">Nejčtenější práce</a></div>
-          <div class="block" n:inner-foreach="$mostread as $one">              
+          <div class="block" n:inner-foreach="$mostread as $one">
             <p class="twolines"><a href='{link :Front:Work: "url"=>$one["url"]}'>{$one["authorName"]}: {$one["title"]}</a></p>
           </div>
-          
-          <div class="name"><a href="{link :Front:Default:newest}">Nejnovější práce</a></div> 	  
+
+          <div class="name"><a href="{link :Front:Default:newest}">Nejnovější práce</a></div>
       	  <div class="block" n:inner-foreach="$newest as $one">
-            <p class="twolines"><a href='{link :Front:Work: "url"=>$one["url"]}'>{$one["authorName"]}: {$one["title"]}</a></p> 
+            <p class="twolines"><a href='{link :Front:Work: "url"=>$one["url"]}'>{$one["authorName"]}: {$one["title"]}</a></p>
           </div>
-          
-          
+
+
           <div class="schoolyear"> Aktuální školní rok: {$schoolYear - 1}/{$schoolYear}</div>
-                        
-        </div>        
+
+        </div>
       </div>
       <div class="bottom">
       </div>
@@ -172,7 +172,7 @@
       Stránky pohání <a title="nettephp.com" href="http://nettephp.com">Nette Framework</a>. Doporučujeme jiný prohlížeč než IE.<br>
       Copyright © 2010, <a href="http://gjk.cz" title="gjk.cz">GJK</a>. Všechna práva vyhrazena.
       Bez předchozího písemného souhlasu není dovoleno další publikování,
-      distribuce nebo tisk materiálů zveřejněných na těchto stránkách. 
+      distribuce nebo tisk materiálů zveřejněných na těchto stránkách.
     </div>
   </div>
   <div class="preload preload0"></div>
