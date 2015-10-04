@@ -632,7 +632,13 @@ Application
 extends
 Object{public
 static$maxLoop=20;public$defaultServices=array('Nette\Application\IRouter'=>'Nette\Application\MultiRouter','Nette\Application\IPresenterLoader'=>array(__CLASS__,'createPresenterLoader'));public$catchExceptions;public$errorPresenter;public$onStartup;public$onShutdown;public$onRequest;public$onError;public$allowedMethods=array('GET','POST','HEAD','PUT','DELETE');private$requests=array();private$presenter;private$serviceLocator;function
-run(){$httpRequest=$this->getHttpRequest();$httpResponse=$this->getHttpResponse();$httpRequest->setEncoding('UTF-8');$httpResponse->setHeader('X-Powered-By','Nette Framework');if(Environment::getVariable('baseUri')===NULL){Environment::setVariable('baseUri',$httpRequest->getUri()->getBasePath());}$session=$this->getSession();if(!$session->isStarted()&&$session->exists()){$session->start();}Debug::addPanel(new
+run(){
+  $httpRequest=$this->getHttpRequest();
+  $httpResponse=$this->getHttpResponse();
+  $httpRequest->setEncoding('UTF-8');
+$httpResponse->setHeader('X-Powered-By','Nette Framework');
+if(Environment::getVariable('baseUri')===NULL){
+  Environment::setVariable('baseUri',$httpRequest->getUri()->getBasePath());}$session=$this->getSession();if(!$session->isStarted()&&$session->exists()){$session->start();}Debug::addPanel(new
 RoutingDebugger($this->getRouter(),$httpRequest));if($this->allowedMethods){$method=$httpRequest->getMethod();if(!in_array($method,$this->allowedMethods,TRUE)){$httpResponse->setCode(IHttpResponse::S501_NOT_IMPLEMENTED);$httpResponse->setHeader('Allow',implode(',',$this->allowedMethods));echo'<h1>Method '.htmlSpecialChars($method).' is not implemented</h1>';return;}}$request=NULL;$repeatedError=FALSE;do{try{if(count($this->requests)>self::$maxLoop){throw
 new
 ApplicationException('Too many loops detected in application life cycle.');}if(!$request){$this->onStartup($this);$router=$this->getRouter();if($router
@@ -722,7 +728,10 @@ signalReceived($signal){if(!$this->tryCall($this->formatSignalMethod($signal),$t
 new
 BadSignalException("There is no handler for signal '$signal' in {$this->reflection->name} class.");}}function
 formatSignalMethod($signal){return$signal==NULL?NULL:'handle'.$signal;}function
-link($destination,$args=array()){if(!is_array($args)){$args=func_get_args();array_shift($args);}try{return str_replace("~xsrbm01/palice/www","chytrapalice",$this->getPresenter()->createRequest($this,$destination,$args,'link'));}catch(InvalidLinkException$e){return$this->getPresenter()->handleInvalidLink($e);}}function
+link($destination,$args=array()){if(!is_array($args)){$args=func_get_args();array_shift($args);}
+try{
+  return $this->getPresenter()->createRequest($this,$destination,$args,'link');
+}catch(InvalidLinkException$e){return$this->getPresenter()->handleInvalidLink($e);}}function
 lazyLink($destination,$args=array()){if(!is_array($args)){$args=func_get_args();array_shift($args);}return
 new
 Link($this,$destination,$args);}function
@@ -749,7 +758,15 @@ new
 UnexpectedValueException("Object returned by {$this->reflection->name}::createTemplate() must be instance of Nette\\Templates\\ITemplate, '$class' given.");}$this->template=$value;}return$this->template;}protected
 function
 createTemplate(){$template=new
-Template;$presenter=$this->getPresenter(FALSE);$template->onPrepareFilters[]=array($this,'templatePrepareFilters');$template->component=$this;$template->control=$this;$template->presenter=$presenter;$template->baseUri=Environment::getVariable('baseUri');$template->basePath=rtrim($template->baseUri,'/');if($presenter!==NULL&&$presenter->hasFlashSession()){$id=$this->getParamId('flash');$template->flashes=$presenter->getFlashSession()->$id;}if(!isset($template->flashes)||!is_array($template->flashes)){$template->flashes=array();}$template->registerHelper('escape','Nette\Templates\TemplateHelpers::escapeHtml');$template->registerHelper('escapeUrl','rawurlencode');$template->registerHelper('stripTags','strip_tags');$template->registerHelper('nl2br','nl2br');$template->registerHelper('substr','iconv_substr');$template->registerHelper('repeat','str_repeat');$template->registerHelper('implode','implode');$template->registerHelper('number','number_format');$template->registerHelperLoader('Nette\Templates\TemplateHelpers::loader');return$template;}function
+Template;
+$presenter=$this->getPresenter(FALSE);
+$template->onPrepareFilters[]=array($this,'templatePrepareFilters');
+$template->component=$this;
+$template->control=$this;
+$template->presenter=$presenter;
+$template->baseUri=Environment::getVariable('baseUri');
+$template->basePath=rtrim($template->baseUri,'/');
+if($presenter!==NULL&&$presenter->hasFlashSession()){$id=$this->getParamId('flash');$template->flashes=$presenter->getFlashSession()->$id;}if(!isset($template->flashes)||!is_array($template->flashes)){$template->flashes=array();}$template->registerHelper('escape','Nette\Templates\TemplateHelpers::escapeHtml');$template->registerHelper('escapeUrl','rawurlencode');$template->registerHelper('stripTags','strip_tags');$template->registerHelper('nl2br','nl2br');$template->registerHelper('substr','iconv_substr');$template->registerHelper('repeat','str_repeat');$template->registerHelper('implode','implode');$template->registerHelper('number','number_format');$template->registerHelperLoader('Nette\Templates\TemplateHelpers::loader');return$template;}function
 templatePrepareFilters($template){$template->registerFilter(new
 LatteFilter);}function
 getWidget($name){return$this->getComponent($name);}function
@@ -1736,13 +1753,13 @@ function
 renderTab($id){switch($id){case'time':?><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAJ6SURBVDjLjZO7T1NhGMY7Mji6uJgYt8bElTjof6CDg4sMSqIxJsRGB5F4TwQSIg1QKC0KWmkZEEsKtEcSxF5ohV5pKSicXqX3aqGn957z+PUEGopiGJ583/A+v3znvPkJAAjWR0VNJG0kGhKahCFhXcN3YBFfx8Kry6ym4xIzce88/fbWGY2k5WRb77UTTbWuYA9gDGg7EVmSIOF4g5T7HZKuMcSW5djWDyL0uRf0dCc8inYYxTcw9fAiCMBYB3gVj1z7gLhNTjKCqHkYP79KENC9Bq3uxrrqORzy+9D3tPAAccspVx1gWg0KbaZFbGllWFM+xrKkFQudV0CeDfJsjN4+C2nracjunoPq5VXIBrowMK4V1gG1LGyWdbZwCalsBYUyh2KFQzpXxVqkAGswD3+qBDpZwow9iYE5v26/VwfUQnnznyhvjguQYabIIpKpYD1ahI8UTT92MUSFuP5Z/9TBTgOgFrVjp3nakaG/0VmEfpX58pwzjUEquNk362s+PP8XYD/KpYTBHmRg9Wch0QX1R80dCZhYipudYQY2Auib8RmODVCa4hfUK4ngaiiLNFNFdKeCWWscXZMbWy9Unv9/gsIQU09a4pwvUeA3Uapy2C2wCKXL0DqTePLexbWPOv79E8f0UWrencZ2poxciUWZlKssB4bcHeE83NsFuMgpo2iIpMuNa1TNu4XjhggWvb+R2K3wZdLlAZl8Fd9jRb5sD+Xx0RJBx5gdom6VsMEFDyWF0WyCeSOFcDKPnRxZYTQL5Rc/nn1w4oFsBaIhC3r6FRh5erPRhYMyHdeFw4C6zkRhmijM7CnMu0AUZonCDCnRJBqSus5/ABD6Ba5CkQS8AAAAAElFTkSuQmCC"
 ><?php echo
 number_format((microtime(TRUE)-self::$time)*1000,1,'.',' ')?>ms
-<?php 
+<?php
 return;case'memory':?><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAGvSURBVDjLpZO7alZREEbXiSdqJJDKYJNCkPBXYq12prHwBezSCpaidnY+graCYO0DpLRTQcR3EFLl8p+9525xgkRIJJApB2bN+gZmqCouU+NZzVef9isyUYeIRD0RTz482xouBBBNHi5u4JlkgUfx+evhxQ2aJRrJ/oFjUWysXeG45cUBy+aoJ90Sj0LGFY6anw2o1y/mK2ZS5pQ50+2XiBbdCvPk+mpw2OM/Bo92IJMhgiGCox+JeNEksIC11eLwvAhlzuAO37+BG9y9x3FTuiWTzhH61QFvdg5AdAZIB3Mw50AKsaRJYlGsX0tymTzf2y1TR9WwbogYY3ZhxR26gBmocrxMuhZNE435FtmSx1tP8QgiHEvj45d3jNlONouAKrjjzWaDv4CkmmNu/Pz9CzVh++Yd2rIz5tTnwdZmAzNymXT9F5AtMFeaTogJYkJfdsaaGpyO4E62pJ0yUCtKQFxo0hAT1JU2CWNOJ5vvP4AIcKeao17c2ljFE8SKEkVdWWxu42GYK9KE4c3O20pzSpyyoCx4v/6ECkCTCqccKorNxR5uSXgQnmQkw2Xf+Q+0iqQ9Ap64TwAAAABJRU5ErkJggg=="
 ><?php echo
 number_format(memory_get_peak_usage()/1000,1,'.',' ')?> kB
-<?php 
+<?php
 return;case'dumps':if(!Debug::$dumps)return;?><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIASURBVDjLpVPPaxNREJ6Vt01caH4oWk1T0ZKlGIo9RG+BUsEK4kEP/Q8qPXnpqRdPBf8A8Wahhx7FQ0GF9FJ6UksqwfTSBDGyB5HkkphC9tfb7jfbtyQQTx142byZ75v5ZnZWC4KALmICPy+2DkvKIX2f/POz83LxCL7nrz+WPNcll49DrhM9v7xdO9JW330DuXrrqkFSgig5iR2Cfv3t3gNxOnv5BwU+eZ5HuON5/PMPJZKJ+yKQfpW0S7TxdC6WJaWkyvff1LDaFRAeLZj05MHsiPTS6hua0PUqtwC5sHq9zv9RYWl+nu5cETcnJ1M0M5WlWq3GsX6/T+VymRzHDluZiGYAAsw0TQahV8uyyGq1qFgskm0bHIO/1+sx1rFtchJhArwEyIQ1Gg2WD2A6nWawHQJVDIWgIJfLhQowTIeE9D0mKAU8qPC0220afsWFQoH93W6X7yCDJ+DEBeBmsxnPIJVKxWQVUwry+XyUwBlKMKwA8jqdDhOVCqVAzQDVvXAXhOdGBFgymYwrGoZBmUyGjxCCdF0fSahaFdgoTHRxfTveMCXvWfkuE3Y+f40qhgT/nMitupzApdvT18bu+YeDQwY9Xl4aG9/d/URiMBhQq/dvZMeVghtT17lSZW9/rAKsvPa/r9Fc2dw+Pe0/xI6kM9mT5vtXy+Nw2kU/5zOGRpvuMIu0YAAAAABJRU5ErkJggg==">variables
-<?php 
+<?php
 return;case'errors':if(!Debug::$errors)return;?><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIsSURBVDjLpVNLSJQBEP7+h6uu62vLVAJDW1KQTMrINQ1vPQzq1GOpa9EppGOHLh0kCEKL7JBEhVCHihAsESyJiE4FWShGRmauu7KYiv6Pma+DGoFrBQ7MzGFmPr5vmDFIYj1mr1WYfrHPovA9VVOqbC7e/1rS9ZlrAVDYHig5WB0oPtBI0TNrUiC5yhP9jeF4X8NPcWfopoY48XT39PjjXeF0vWkZqOjd7LJYrmGasHPCCJbHwhS9/F8M4s8baid764Xi0Ilfp5voorpJfn2wwx/r3l77TwZUvR+qajXVn8PnvocYfXYH6k2ioOaCpaIdf11ivDcayyiMVudsOYqFb60gARJYHG9DbqQFmSVNjaO3K2NpAeK90ZCqtgcrjkP9aUCXp0moetDFEeRXnYCKXhm+uTW0CkBFu4JlxzZkFlbASz4CQGQVBFeEwZm8geyiMuRVntzsL3oXV+YMkvjRsydC1U+lhwZsWXgHb+oWVAEzIwvzyVlk5igsi7DymmHlHsFQR50rjl+981Jy1Fw6Gu0ObTtnU+cgs28AKgDiy+Awpj5OACBAhZ/qh2HOo6i+NeA73jUAML4/qWux8mt6NjW1w599CS9xb0mSEqQBEDAtwqALUmBaG5FV3oYPnTHMjAwetlWksyByaukxQg2wQ9FlccaK/OXA3/uAEUDp3rNIDQ1ctSk6kHh1/jRFoaL4M4snEMeD73gQx4M4PsT1IZ5AfYH68tZY7zv/ApRMY9mnuVMvAAAAAElFTkSuQmCC"
 ><span class="nette-warning"><?php echo
 count(self::$errors)?> errors</span>
@@ -1777,7 +1794,7 @@ preg_replace_callback('#(<pre class="nette-dump">|\s+)?(.*)\((\d+)\) <code>#','_
 	</table>
 <?php endforeach?>
 </div>
-<?php 
+<?php
 return;case'errors':?><h1>Errors</h1>
 
 <?php $relative=isset($_SERVER['SCRIPT_FILENAME'])?strtr(dirname(dirname($_SERVER['SCRIPT_FILENAME'])),'/',DIRECTORY_SEPARATOR):NULL?>
@@ -2787,7 +2804,7 @@ nette.forms[<?php echo$formName?>].toggle(document.getElementById(<?php echo$for
 </script>
 
 <!-- /Nette Form validator -->
-<?php 
+<?php
 return
 ob_get_clean();}private
 function
@@ -4333,7 +4350,29 @@ function
 getUriFilters(){return$this->uriFilter;}protected
 function
 detectUri(){$uri=$this->uri=new
-UriScript;$uri->scheme=$this->isSecured()?'https':'http';$uri->user=isset($_SERVER['PHP_AUTH_USER'])?$_SERVER['PHP_AUTH_USER']:'';$uri->password=isset($_SERVER['PHP_AUTH_PW'])?$_SERVER['PHP_AUTH_PW']:'';if(isset($_SERVER['HTTP_HOST'])){$pair=explode(':',$_SERVER['HTTP_HOST']);}elseif(isset($_SERVER['SERVER_NAME'])){$pair=explode(':',$_SERVER['SERVER_NAME']);}else{$pair=array('');}$uri->host=$pair[0];if(isset($pair[1])){$uri->port=(int)$pair[1];}elseif(isset($_SERVER['SERVER_PORT'])){$uri->port=(int)$_SERVER['SERVER_PORT'];}if(isset($_SERVER['REQUEST_URI'])){$requestUri=$_SERVER['REQUEST_URI'];}elseif(isset($_SERVER['ORIG_PATH_INFO'])){$requestUri=$_SERVER['ORIG_PATH_INFO'];if(isset($_SERVER['QUERY_STRING'])&&$_SERVER['QUERY_STRING']!=''){$requestUri.='?'.$_SERVER['QUERY_STRING'];}}else{$requestUri='';}$tmp=explode('?',$requestUri,2);$this->originalUri=new
+UriScript;
+$uri->scheme=$this->isSecured()?'https':'http';
+$uri->user=isset($_SERVER['PHP_AUTH_USER'])?$_SERVER['PHP_AUTH_USER']:'';
+$uri->password=isset($_SERVER['PHP_AUTH_PW'])?$_SERVER['PHP_AUTH_PW']:'';
+if(isset($_SERVER['HTTP_HOST'])){
+  $pair=explode(':',$_SERVER['HTTP_HOST']);
+}elseif(isset($_SERVER['SERVER_NAME'])){
+  $pair=explode(':',$_SERVER['SERVER_NAME']);
+}else{$pair=array('');}
+$uri->host=$pair[0];
+if(isset($pair[1])){
+  $uri->port=(int)$pair[1];
+}elseif(isset($_SERVER['SERVER_PORT'])){
+  $uri->port=(int)$_SERVER['SERVER_PORT'];
+}if(isset($_SERVER['REQUEST_URI'])){
+  $requestUri=$_SERVER['REQUEST_URI'];
+}elseif(isset($_SERVER['ORIG_PATH_INFO'])){
+  $requestUri=$_SERVER['ORIG_PATH_INFO'];
+  if(isset($_SERVER['QUERY_STRING'])&&$_SERVER['QUERY_STRING']!=''){
+    $requestUri.='?'.$_SERVER['QUERY_STRING'];
+  }}else{$requestUri='';}
+  $tmp=explode('?',$requestUri,2);
+  $this->originalUri=new
 Uri($uri);$this->originalUri->path=$tmp[0];$this->originalUri->query=isset($tmp[1])?$tmp[1]:'';$this->originalUri->freeze();$requestUri=preg_replace(array_keys($this->uriFilter[0]),array_values($this->uriFilter[0]),$requestUri);$tmp=explode('?',$requestUri,2);$uri->path=preg_replace(array_keys($this->uriFilter[PHP_URL_PATH]),array_values($this->uriFilter[PHP_URL_PATH]),$tmp[0]);$uri->path=String::fixEncoding($uri->path);$uri->query=isset($tmp[1])?$tmp[1]:'';$uri->canonicalize();$filename=isset($_SERVER['SCRIPT_FILENAME'])?basename($_SERVER['SCRIPT_FILENAME']):NULL;$scriptPath='';if(isset($_SERVER['SCRIPT_NAME'])&&basename($_SERVER['SCRIPT_NAME'])===$filename){$scriptPath=rtrim($_SERVER['SCRIPT_NAME'],'/');}elseif(isset($_SERVER['PHP_SELF'])&&basename($_SERVER['PHP_SELF'])===$filename){$scriptPath=$_SERVER['PHP_SELF'];}elseif(isset($_SERVER['ORIG_SCRIPT_NAME'])&&basename($_SERVER['ORIG_SCRIPT_NAME'])===$filename){$scriptPath=$_SERVER['ORIG_SCRIPT_NAME'];}elseif(isset($_SERVER['PHP_SELF'],$_SERVER['SCRIPT_FILENAME'])){$path=$_SERVER['PHP_SELF'];$segs=explode('/',trim($_SERVER['SCRIPT_FILENAME'],'/'));$segs=array_reverse($segs);$index=0;$last=count($segs);do{$seg=$segs[$index];$scriptPath='/'.$seg.$scriptPath;$index++;}while(($last>$index)&&(FALSE!==($pos=strpos($path,$scriptPath)))&&(0!=$pos));}if(strncmp($uri->path,$scriptPath,strlen($scriptPath))===0){$uri->scriptPath=$scriptPath;}elseif(strncmp($uri->path,$scriptPath,strrpos($scriptPath,'/')+1)===0){$uri->scriptPath=substr($scriptPath,0,strrpos($scriptPath,'/')+1);}elseif(strpos($uri->path,basename($scriptPath))===FALSE){$uri->scriptPath='/';}elseif((strlen($uri->path)>=strlen($scriptPath))&&((FALSE!==($pos=strpos($uri->path,$scriptPath)))&&($pos!==0))){$uri->scriptPath=substr($uri->path,0,$pos+strlen($scriptPath));}else{$uri->scriptPath=$scriptPath;}$uri->freeze();}final
 function
 getQuery($key=NULL,$default=NULL){if($this->query===NULL){$this->initialize();}if(func_num_args()===0){return$this->query;}elseif(isset($this->query[$key])){return$this->query[$key];}else{return$default;}}final
