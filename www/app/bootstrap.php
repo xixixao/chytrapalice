@@ -10,7 +10,7 @@ require LIBS_DIR . '/Nette/loader.php';
 
 // Step 2: Configure environment
 // 2a) enable Debug for better exception and error visualisation
-Debug::enable();
+// Debug::enable();
 
 // 2b) load configuration from config.ini file
 Environment::loadConfig();
@@ -27,8 +27,8 @@ dibi::connect((array)Environment::getConfig('database'));
 $router = $application->getRouter();
 
 // mod_rewrite detection
-//if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {	
-  
+//if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {
+
   Route::setStyleProperty('action', Route::FILTER_TABLE, array(
         'nejctenejsich' => 'mostread',
         'nejnovejsich' => 'newest',
@@ -37,7 +37,7 @@ $router = $application->getRouter();
         'autoru' => 'authors',
         'hledat' => 'search',
         'autora' => 'author',
-        
+
   ));
   Route::setStyleProperty('presenter', Route::FILTER_TABLE, array(
         'seznam' => 'Default',
@@ -45,29 +45,29 @@ $router = $application->getRouter();
         'prace' => 'Work',
         'pridat' => 'Editor'
   ));
- 
+
   $router[] = new Route('admin/<presenter>-<action>', array(
       'module' => 'Admin',
       'presenter' => 'Default',
       'action' => 'default'
-  ));	
+  ));
 
   $router[] = new Route('<presenter autor|prace>/<url>', array(
       'module' => 'Front',
       'action' => 'default'
   ));
-                                                                    
+
 	$router[] = new Route('<presenter>-<action>[/maturita/<class>][/rok/<year>][/cena/<award>][/typ/<type>][/rocnik/<grade>][/kategorie/<category>]', array(
       'module' => 'Front',
       'presenter' => 'Default',
       'action' => 'default'
   ));
-  
 
 
-//} 
+
+//}
 	//$router[] = new SimpleRouter('Front:Default:default');
-   
+
 
 
 
