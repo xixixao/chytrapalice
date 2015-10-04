@@ -1,6 +1,6 @@
 <?php
 header('content-type:text/css');
-header("Expires: ".gmdate("D, d M Y H:i:s", (time()+900)) . " GMT"); 
+header("Expires: ".gmdate("D, d M Y H:i:s", (time()+900)) . " GMT");
 
 
 //widths:
@@ -52,28 +52,28 @@ body {
 #header{
   float: left;
   background: url('../images/header.png') no-repeat;
-  margin-top: $big px;   
+  margin-top: $big px;
   width: $page px;
   height: 100px;
 }
 #page{
-  float: left;  
+  float: left;
   width: $page px;
-  margin-top: " . ($big - 2 * $shadow) . "px;     
+  margin-top: " . ($big - 2 * $shadow) . "px;
 }
 #footer{
-  float: left;  
+  float: left;
   width: $page px;
   text-align: center;
-  color: #444;     
+  color: #444;
 }
 #footer a {
-  color: #777;     
+  color: #777;
 }
 
 a{
   text-decoration: none;
-}  
+}
 a:hover{
   text-decoration: underline;
 }
@@ -98,7 +98,7 @@ a:hover{
   float: left;
   padding: " .($pad = $big + $shadow) . "px;
   margin-left: " . ($page - $home - $search) ."px;
-  width: ".($search - 2*$pad)." px;  
+  width: ".($search - 2*$pad)." px;
   font-size: 16px;
   color: $background;
 }
@@ -110,7 +110,7 @@ a:hover{
   float: left;
 }
 #searchbox input.text{
-  width: " .($search - 2*$pad - 20 - 6 - $small)."px;
+  width: " .($search - 2*$pad - 20 - 10 - $small)."px;
   margin-right: $small px;
 }
 #searchbox a.searchBtn{
@@ -162,18 +162,18 @@ a:hover{
 #rightbar ul.topmenu li a, #rightbar div.name a, #rightbar ul.submenu li td.label{
   float: left;
   height: 19px;
-  padding: $small px 0px;
+  padding: 12px 0px;
   margin-top: $small px;
   font-size: 16px;
   line-height: 16px;
-  color: white; 
-  text-shadow: black 0px 0px 5px;  
+  color: white;
+  text-shadow: black 0px 0px 5px;
 }
 #rightbar div.name a{
   background: url('../images/rightname.png') no-repeat;
   margin-left: ".($small + $shadow)."px;
   padding-left: 28px;
-  width: ".($tab- $big - 28 + $shadow)."px;  
+  width: ".($tab- $big - 28 + $shadow)."px;
 }
 #rightbar div.block{
   background: #e1eaeb;
@@ -207,7 +207,7 @@ div.schoolyear{
   list-style: none;
   float: left;
 }
-#rightbar ul.topmenu li{  
+#rightbar ul.topmenu li{
   float: left;
   position: relative;
 }
@@ -227,17 +227,17 @@ div.schoolyear{
 }
 /*--second level--*/
 #rightbar ul.submenu{
-  list-style: none;  
-  position: absolute;  
+  list-style: none;
+  position: absolute;
   right: 275px;
-  top: $small px;  
-  display: none; 
+  top: $small px;
+  display: none;
 }
 #rightbar ul.submenu li{
   float: left;
   position: relative;
   width: 100%;
-  padding-bottom: 2px;  
+  padding-bottom: 2px;
 }
 #rightbar ul.submenu table{
   border-collapse: collapse;
@@ -245,10 +245,10 @@ div.schoolyear{
 }
 #rightbar ul.submenu table, #rightbar ul.submenu tr{
   width: 100%;
-} 
+}
 #rightbar ul.submenu li td.label{
-  background: url('../images/submenu.png') no-repeat;  
-  padding: 8px $small px 12px;
+  background: url('../images/submenu.png') no-repeat;
+  padding: 0px $small px 12px;
   cursor: default;
   float: none;
   white-space: nowrap;
@@ -256,7 +256,7 @@ div.schoolyear{
   height: 39px;
 }
 #rightbar ul.submenu li td.end{
-  padding: 0px; 
+  padding: 0px;
   height: 39px;
   width: 3px;
   display: block;
@@ -264,56 +264,56 @@ div.schoolyear{
 }
 /*--third level--*/
 #rightbar ul.optionsmenu{
-  list-style: none;  
+  list-style: none;
   position: absolute;
-  top: 1px;  
+  top: 1px;
   display: none;
   padding-right: 2px;
 }
 #rightbar ul.optionsmenu td.tl{
-  background: url('../images/optionstop.png') no-repeat left top;    
+  background: url('../images/optionstop.png') no-repeat left top;
   height: 10px;
-  width: 100%;  
+  width: 100%;
 }
 #rightbar ul.optionsmenu td.bl{
-  background-image: url('../images/optionsbottom.png');   
+  background-image: url('../images/optionsbottom.png');
   height: 10px;
   width: 100%;
 }
 #rightbar ul.optionsmenu td.tr{
-  background: url('../images/optionstopend.png') no-repeat right top;  
-  height: 10px;
-  width: 10px;
-  display:block;  
-  padding: 0px;  
-}
-#rightbar ul.optionsmenu td.br{  
-  background: url('../images/optionsbottomend.png') no-repeat right top;  
+  background: url('../images/optionstopend.png') no-repeat right top;
   height: 10px;
   width: 10px;
   display:block;
-  padding: 0px; 
+  padding: 0px;
 }
-#rightbar ul.optionsmenu td.l{  
-  background: url('../images/optionsbody.png') repeat-y;  
-  width: 10px; 
+#rightbar ul.optionsmenu td.br{
+  background: url('../images/optionsbottomend.png') no-repeat right top;
+  height: 10px;
+  width: 10px;
+  display:block;
+  padding: 0px;
 }
-#rightbar ul.optionsmenu td.r{  
-  background: url('../images/optionsbody.png') repeat-y right top;  
-  width: 10px; 
+#rightbar ul.optionsmenu td.l{
+  background: url('../images/optionsbody.png') repeat-y;
+  width: 10px;
+}
+#rightbar ul.optionsmenu td.r{
+  background: url('../images/optionsbody.png') repeat-y right top;
+  width: 10px;
 }
 #rightbar li ul.optionsmenu td.label{
   background: #859ba6;
   padding: 0px;
-} 
+}
 #rightbar ul.optionsmenu li a{
-  display: block;  
+  display: block;
   width: 100%;
   padding: 0px 0px 0px 8px;
   margin: 0px;
   text-decoration: none;
 }
-#rightbar ul.optionsmenu li a:hover{  
+#rightbar ul.optionsmenu li a:hover{
   text-decoration: underline;
 }
 
@@ -345,10 +345,10 @@ div.preload6{
   background: url('../images/optionstop.png') no-repeat left top;
 }
 div.preload7{
-  background: url('../images/optionsbody.png') repeat-y right top; 
+  background: url('../images/optionsbody.png') repeat-y right top;
 }
 
-           
+
 /*div.work-text{
   width: $inside px;
 } */
@@ -384,7 +384,7 @@ div.files a{
   text-align: center;
 }
 div.files a div{
-  height: 104px;  
+  height: 104px;
 }
 #content div.files a:hover{
   border: 1px solid #eaedf4;
@@ -399,8 +399,8 @@ foreach($fileTypes as $type){
 div.files a.$type{
   background-image: url('../images/fileicons/".$type.".png');
 }
-  
-  ";  
+
+  ";
 }
 
 $css.="
@@ -420,7 +420,7 @@ table.datagrid {
 }
 table.datagrid tr {
   color: #525b37;
-	
+
 }
 table.datagrid tbody tr.even {
 	background: #eaedf4;
@@ -435,7 +435,7 @@ table.datagrid tbody tr.selected, table.datagrid tbody tr.selected td {
 
 table.datagrid tr.header{
   background: url('../images/tableheader.png') no-repeat 0% 85%;
-  
+
 }
 table.datagrid tr.header th{
 padding-bottom: 4px;
@@ -506,7 +506,7 @@ table.datagrid input.datepicker {
 	background: white url('../images/datagrid/calendar.gif') no-repeat right !important;
 }
 table.datagrid th {
-		
+
 	padding-left: 5px;
 	padding-right: 5px;
 }
@@ -524,7 +524,7 @@ table.datagrid td{
   white-space: nowrap;
   border-left: 1px solid #eaedf4;
   height: 32px;
-  
+
 }
 table.datagrid td.first, table.datagrid tr.footer td{
   white-space: normal;
@@ -546,9 +546,9 @@ table.datagrid tr.header th a span {
 	padding-left: 6px;
 }
 table.datagrid tr.filters, table.datagrid tr.filters td {
-	background: #e1eaeb; 
+	background: #e1eaeb;
 	padding:5px 6px 4px;
-	border: none;  	
+	border: none;
 }
 table.datagrid tr.header th span.link {
 	color: #165CA3;
@@ -654,7 +654,7 @@ table.datagrid .paginator a {
 	float: left !important;
 	padding: 0em !important;
 }
-table.datagrid .paginator .paginator-first, table.datagrid .paginator .paginator-prev, 
+table.datagrid .paginator .paginator-first, table.datagrid .paginator .paginator-prev,
 table.datagrid .paginator .paginator-next,  table.datagrid .paginator .paginator-last {
 	margin: 0em 0.2em;
 	float: left;
