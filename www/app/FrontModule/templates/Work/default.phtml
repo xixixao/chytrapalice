@@ -15,11 +15,11 @@ $data['type'] =  Model::formValue($data['type'], '/jiný/', '');
 </div>
 <h4><a href="{link :Front:Author: $data['authorUrl']}">{$data['authorName']}</a>, {$data['workClass']}</h4>
 {if $award}
-  práce získala v roce {$data['year']} {$award}<br>
+  práce získala v roce {$data['year']} {$award}
 {else}
   práce z roku {$data['year']}
 {/if}
-,{$data['type']}
+<br>typ: {$data['type']}
 <p n:if="$data['text']!=''">Počet normostran: {$data['pages']}, slov: {$data['words']}, znaků: {$data['characters']}</p>
 <p n:if="$data['text']==''">Text práce není k dispozici přímo.</p>
 <hr>
