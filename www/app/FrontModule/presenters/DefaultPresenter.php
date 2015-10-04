@@ -91,9 +91,8 @@ class Front_DefaultPresenter extends Front_BasePresenter
             //title,
 
       $grid = new DataGrid;
-      $search = NULL;
-      if(isset($this->search) || isset($this->searchFull)){
-        $search = "";
+      $search = "";
+      if(isset($this->searchFull)){
         foreach($this->search as $one){
           $search .= "title RLIKE '(^| )".$one."' OR ";
         }
@@ -202,8 +201,8 @@ class Front_DefaultPresenter extends Front_BasePresenter
   {
       $grid = new DataGrid;
 
-      if(isset($this->search) || isset($this->searchFull)){
-        $search = "";
+      $search = "";
+      if(isset($this->searchFull)){
         foreach($this->search as $one){
           //$search .= "name LIKE '%".$one."%' OR surname LIKE '% ".$one."%' OR ";
           $search .= "name RLIKE '(^| )$one' OR surname RLIKE '(^| )$one' OR ";
